@@ -1,8 +1,9 @@
 name: Trigger another workflow on pull request review
+
 on:
   pull_request_review:
     branches:
-      - topic*
+      - 
     types: [submitted]
 
 jobs:
@@ -39,5 +40,5 @@ jobs:
       - name: check status
         if: steps.check-reviews.outputs.approved != 'true'
         run: exit 1
-      - name: testing
-        uses: ./.github/actions/test
+      - name: success
+        run: echo ":クラッカー: The job was automatically triggered by a ${{ github.event_name }} event."
