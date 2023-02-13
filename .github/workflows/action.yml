@@ -1,4 +1,4 @@
-name: レビュワーが全て承認した場合に他のワークフローを実行
+name: Trigger other workflows once all reviewers approve
 
 on:
   pull_request_review:
