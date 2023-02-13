@@ -1,0 +1,17 @@
+name: Trigger other workflows if the comment exec_ci is included
+
+on:
+  issue_comment:
+    branches:
+      - issue*
+    types: [created]
+
+jobs:
+  check-reviews:
+    if: contains(github.event.comment.html_url, '/pull/') && startsWith(github.event.comment.body, '/deploy')
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: success
+        run: |
+          echo ":クラッカー: The job was automatically triggered by a ${{ github.event_name }} event."
