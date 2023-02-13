@@ -11,7 +11,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo $GITHUB_TOKEN
           pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           repository=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
           requested_reviewers=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/requested_reviewers")
@@ -22,6 +21,10 @@ jobs:
           fi
           reviews=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
           approved_review_count=$(echo "$reviews" | jq 'map(select(.state == "APPROVED")) | length')
+
+          echo $approved_review_count
+          echo $reviews
+
           if [ $review_count -eq $approved_review_count ]; then
             echo 'All reviews are approved.'
             # Trigger another workflow
