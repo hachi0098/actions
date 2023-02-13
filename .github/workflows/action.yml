@@ -40,4 +40,5 @@ jobs:
         if: steps.check-reviews.outputs.all_reviews_approved != 'true'
         run: exit 1
       - name: success
-        run: echo ":クラッカー: The job was automatically triggered by a ${{ github.event_name }} event."
+        run: |
+          echo ":クラッカー: The job was automatically triggered by a ${{ github.event_name }} event."
