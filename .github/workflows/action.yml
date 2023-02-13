@@ -23,6 +23,7 @@ jobs:
           approved_review_count=$(echo "$reviews" | jq 'map(select(.state == "APPROVED")) | length')
 
           echo $approved_review_count
+          echo $review_count
           echo $reviews
 
           if [ $review_count -eq $approved_review_count ]; then
