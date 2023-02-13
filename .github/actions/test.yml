@@ -1,0 +1,6 @@
+name: testing
+
+runs:
+  using: composite
+  steps:
+    - run: echo ":クラッカー: The job was automatically triggered by a ${{ github.event_name }} event."
