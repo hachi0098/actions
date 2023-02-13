@@ -10,6 +10,12 @@ jobs:
   check-reviews:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo $GITHUB_REF
+          echo ${{ github.ref }}
+          echo ${{ github.ref_name }}
+          echo ${{ github.head_ref }}
+          echo ${{ github.base_ref }}
       - name: Check if all reviews are approved
         id: check-reviews
         env:
