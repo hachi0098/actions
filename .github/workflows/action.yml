@@ -30,14 +30,13 @@ jobs:
           approved_review_count=$(echo "$reviews" | jq 'map(select(.state == "APPROVED")) | length')
           if [ $review_count -eq $approved_review_count ]; then
             echo 'All reviews are approved.'
-            # Trigger another workflow
             echo "::set-output name=all_reviews_approved::true"
           else
             echo 'Not all reviews are approved.'
             exit 1
           fi
       - name: check status
-        if: steps.check-reviews.outputs.approved != 'true'
+        if: steps.check-reviews.outputs.all_reviews_approved != 'true'
         run: exit 1
       - name: testing
         uses: ./.github/actions/test
