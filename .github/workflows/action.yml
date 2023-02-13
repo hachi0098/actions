@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          PR=$(curl -H "Authorization: ${{ secrets.GITHUB_TOKEN }}" ${{ github.event.issue.pull_request.url }})
+          echo $PR
+          echo ${{ github.event.issue.pull_request.url }}
           echo $GITHUB_REF
           echo ${{ github.ref }}
           echo ${{ github.ref_name }}
