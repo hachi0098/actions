@@ -1,4 +1,4 @@
-name: Trigger another workflow on pull request review
+name: レビュワーが全て承認した場合に他のワークフローを実行
 
 on:
   pull_request_review:
@@ -17,18 +17,19 @@ jobs:
         run: |
           pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           repository=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
-          # requested_reviewers=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/requested_reviewers")
-          # echo=$requested_reviewers
-          # echo $(echo "$requested_reviewers" | jq '.users | length')
 
           reviews=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
           review_count=$(echo "$reviews" | jq 'length')
+          
+          # レビュワーが設定されていない場合、終了
           if [ review_count -eq 0 ]; then
             echo 'No reviews found.'
             exit 1
           fi
 
           approved_review_count=$(echo "$reviews" | jq 'map(select(.state == "APPROVED")) | length')
+
+          # 設定されたレビュワーが全て承認しているかチェック
           if [ $review_count -eq $approved_review_count ]; then
             echo 'All reviews are approved.'
             echo "::set-output name=all_reviews_approved::true"
